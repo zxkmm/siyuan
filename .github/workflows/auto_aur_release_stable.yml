@@ -53,21 +53,21 @@ jobs:
           options=("!strip" "!debug")
           depends=("fuse2")
           optdepends=('pandoc: docx export')
-          source=("${_pkgname}::https://github.com/siyuan-note/siyuan/releases/download/${{ steps.get_version.outputs.TAG_VERSION }}/${{ steps.get_package_file_name.outputs.PACKAGE_FILE_NAME }}")
+          source=("\${_pkgname}::https://github.com/siyuan-note/siyuan/releases/download/${{ steps.get_version.outputs.TAG_VERSION }}/${{ steps.get_package_file_name.outputs.PACKAGE_FILE_NAME }}")
           
           _installdir=/opt/appimages
 
           prepare() {
-              chmod a+x ${_pkgname}
-              ./${_pkgname} --appimage-extract >/dev/null
-              sed -i "s+AppRun+${_installdir}/siyuan.AppImage+" "squashfs-root/siyuan.desktop"
+              chmod a+x \${_pkgname}
+              ./\${_pkgname} --appimage-extract >/dev/null
+              sed -i "s+AppRun+\${_installdir}/siyuan.AppImage+" "squashfs-root/siyuan.desktop"
               sed -i "s+^Icon=.*+Icon=siyuan-appimage+" "squashfs-root/siyuan.desktop"
           }
 
           package() {
-              install -Dm755 ${_pkgname} "${pkgdir}/${_installdir}/siyuan.AppImage"
+              install -Dm755 \${_pkgname} "\${pkgdir}/\${_installdir}/siyuan.AppImage"
               install -Dm644 "squashfs-root/resources/stage/icon.png" "${pkgdir}/usr/share/icons/hicolor/512x512/apps/siyuan-appimage.png"
-              install -Dm644 "squashfs-root/siyuan.desktop" "${pkgdir}/usr/share/applications/siyuan-appimage.desktop"
+              install -Dm644 "squashfs-root/siyuan.desktop" "\${pkgdir}/usr/share/applications/siyuan-appimage.desktop"
           }
           EOF
 
