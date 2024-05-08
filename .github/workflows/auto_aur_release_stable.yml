@@ -23,7 +23,7 @@ jobs:
 
       - name: Extract tag name
         id: get_version
-        run: echo ::set-output name=TAG_VERSION::${GITHUB_REF#refs/tags/}
+        run: echo ::set-output name=TAG_VERSION::${{ github.event.release.tag_name }}
 
       - name: Create PKGBUILD
         run: |
@@ -35,7 +35,7 @@ jobs:
           
           pkgname=siyuan_stable
           pkgver=${{ steps.get_version.outputs.TAG_VERSION }}
-          pkgrel=2
+          pkgrel=
           pkgdesc="auto upload to AUR when SiYuan stable release"
           arch=("x86_64")
           url="https://b3log.org/siyuan"
@@ -45,7 +45,7 @@ jobs:
           options=("!strip" "!debug")
           depends=("fuse2")
           optdepends=('pandoc: docx export')
-          source=("${_pkgname}::https://github.com/siyuan-note/siyuan/releases/download/v${pkgver}/${_pkgname}")
+          source=("${_pkgname}::https://github.com/siyuan-note/siyuan/releases/download/${pkgver}/${_pkgname}")
           sha256sums=("82b184611529957e2b148de7d40463de4bc70a66026f7a4059060a7e018aeb41")
 
           _installdir=/opt/appimages
