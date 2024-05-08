@@ -27,7 +27,7 @@ jobs:
 
       - name: Extra tag name without v
         id: get_version_without_v
-        run: echo ::set-output name=TAG_VERSION_WITHOUT_V::${{ github.event.release.tag_name#v }}
+        run: echo ::set-output name=TAG_VERSION_WITHOUT_V::$(echo "${{ github.event.release.tag_name }}" | sed 's/^v//')
 
       - name: Extract package_file_name
         id: get_package_file_name
