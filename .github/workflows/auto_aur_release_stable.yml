@@ -65,7 +65,7 @@ jobs:
           EOF
 
       - name: Publish AUR package
-        uses: KSXGitHub/github-actions-deploy-aur@<TAG>
+        uses: KSXGitHub/github-actions-deploy-aur@v2.7.1
         with:
           pkgname: my-awesome-package
           pkgbuild: ./PKGBUILD
