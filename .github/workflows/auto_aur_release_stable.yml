@@ -54,6 +54,7 @@ jobs:
           depends=("fuse2")
           optdepends=('pandoc: docx export')
           source=("\${_pkgname}::https://github.com/siyuan-note/siyuan/releases/download/${{ steps.get_version.outputs.TAG_VERSION }}/${{ steps.get_package_file_name.outputs.PACKAGE_FILE_NAME }}")
+          sha256sums=('SKIP')
           
           _installdir=/opt/appimages
 
