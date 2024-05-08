@@ -25,9 +25,13 @@ jobs:
         id: get_version
         run: echo ::set-output name=TAG_VERSION::${{ github.event.release.tag_name }}
 
+      - name: Extra tag name without v
+        id: get_version_without_v
+        run: echo ::set-output name=TAG_VERSION_WITHOUT_V::${{ github.event.release.tag_name#v }}
+
       - name: Extract package_file_name
         id: get_package_file_name
-        run: echo ::set-output name=PACKAGE_FILE_NAME::siyuan-${{ steps.get_version.outputs.TAG_VERSION }}-linux.AppImage
+        run: echo ::set-output name=PACKAGE_FILE_NAME::siyuan-${{ steps.get_version.outputs.TAG_VERSION_WITHOUT_V }}-linux.AppImage
 
       - name: Create PKGBUILD
         run: |
