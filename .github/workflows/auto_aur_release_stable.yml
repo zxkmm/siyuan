@@ -25,7 +25,7 @@ jobs:
         id: get_version
         run: echo ::set-output name=TAG_VERSION::${{ github.event.release.tag_name }}
 
-      -name: Extract package_file_name
+      - name: Extract package_file_name
         id: get_package_file_name
         run: echo ::set-output name=PACKAGE_FILE_NAME::siyuan-${{ steps.get_version.outputs.TAG_VERSION }}-linux.AppImage
 
