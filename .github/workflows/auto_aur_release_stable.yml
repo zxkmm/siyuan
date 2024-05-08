@@ -25,6 +25,10 @@ jobs:
         id: get_version
         run: echo ::set-output name=TAG_VERSION::${{ github.event.release.tag_name }}
 
+      -name: Extract package_file_name
+        id: get_package_file_name
+        run: echo ::set-output name=PACKAGE_FILE_NAME::siyuan-${{ steps.get_version.outputs.TAG_VERSION }}-linux.AppImage
+
       - name: Create PKGBUILD
         run: |
           cat << EOF >> PKGBUILD
@@ -35,19 +39,17 @@ jobs:
           
           pkgname=siyuan_stable
           pkgver=${{ steps.get_version.outputs.TAG_VERSION }}
-          pkgrel=0
           pkgdesc="auto upload to AUR when SiYuan stable release"
           arch=("x86_64")
           url="https://b3log.org/siyuan"
           license=("AGPL-3.0-only")
-          _pkgname="siyuan-${pkgver}-linux.AppImage"
-          noextract=(${_pkgname})
+          _pkgname=${{ steps.get_package_file_name.outputs.PACKAGE_FILE_NAME }}
+          noextract=(${{ steps.get_package_file_name.outputs.PACKAGE_FILE_NAME }})
           options=("!strip" "!debug")
           depends=("fuse2")
           optdepends=('pandoc: docx export')
-          source=("${_pkgname}::https://github.com/siyuan-note/siyuan/releases/download/${pkgver}/${_pkgname}")
-          sha256sums=("82b184611529957e2b148de7d40463de4bc70a66026f7a4059060a7e018aeb41")
-
+          source=("${_pkgname}::https://github.com/siyuan-note/siyuan/releases/download/${{ steps.get_version.outputs.TAG_VERSION }}/${{ steps.get_package_file_name.outputs.PACKAGE_FILE_NAME }}")
+          
           _installdir=/opt/appimages
 
           prepare() {
