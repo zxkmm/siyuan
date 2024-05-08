@@ -31,7 +31,7 @@ jobs:
 
       - name: Extract package_file_name
         id: get_package_file_name
-        run: echo ::set-output name=PACKAGE_FILE_NAME::siyuan-${{ steps.get_version.outputs.TAG_VERSION_WITHOUT_V }}-linux.AppImage
+        run: echo ::set-output name=PACKAGE_FILE_NAME::siyuan-${{ steps.get_version_without_v.outputs.TAG_VERSION_WITHOUT_V }}-linux.AppImage
 
       - name: Create PKGBUILD
         run: |
