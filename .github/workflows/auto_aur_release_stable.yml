@@ -1,14 +1,25 @@
 name: Upload to AUR
 
 on:
-  push:
-    tags:
-      - '!*dev*'
+  release:
+    types: [published]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+
+      - name: Check tag aka check release type
+        id: checktag
+        run: |
+          if [[ "${{ github.ref }}" == *"dev"* ]]; then
+            echo "Skip the workflow as the tag contains 'dev'"
+            echo "::set-output name=skip::true"
+          else
+            echo "Continue the workflow"
+            echo "::set-output name=skip::false"
+          fi
+        shell: bash
 
       - name: Extract tag name
         id: get_version
@@ -56,10 +67,10 @@ jobs:
       - name: Publish AUR package
         uses: KSXGitHub/github-actions-deploy-aur@<TAG>
         with:
-            pkgname: my-awesome-package
-            pkgbuild: ./PKGBUILD
-            commit_username: ${{ secrets.AUR_USERNAME }}
-            commit_email: ${{ secrets.AUR_EMAIL }}
-            ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
-            commit_message: Update AUR package
-            ssh_keyscan_types: rsa,dsa,ecdsa,ed25519
+          pkgname: my-awesome-package
+          pkgbuild: ./PKGBUILD
+          commit_username: ${{ secrets.AUR_USERNAME }}
+          commit_email: ${{ secrets.AUR_EMAIL }}
+          ssh_private_key: ${{ secrets.AUR_SSH_PRIVATE_KEY }}
+          commit_message: Update AUR package
+          ssh_keyscan_types: rsa,dsa,ecdsa,ed25519
