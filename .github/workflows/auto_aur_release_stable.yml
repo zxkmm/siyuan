@@ -28,10 +28,6 @@ jobs:
         id: get_version_without_v
         run: echo ::set-output name=TAG_VERSION_WITHOUT_V::$(echo "${{ github.event.release.tag_name }}" | sed 's/^v//')
 
-      - name: Extract package_file_name
-        id: get_package_file_name
-        run: echo ::set-output name=PACKAGE_FILE_NAME::siyuan-${{ steps.get_version_without_v.outputs.TAG_VERSION_WITHOUT_V }}-linux.AppImage
-
       - name: Create PKGBUILD
         run: |
           cat << EOF >> PKGBUILD
